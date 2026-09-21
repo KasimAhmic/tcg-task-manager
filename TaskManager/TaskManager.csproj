@@ -35,6 +35,10 @@
             <HintPath>Refs\Assembly-CSharp.dll</HintPath>
             <Private>false</Private>
         </Reference>
+        <Reference Include="BepInEx">
+            <HintPath>Refs\BepInEx.dll</HintPath>
+            <Private>false</Private>
+        </Reference>
         <Reference Include="Unity.InputSystem">
             <HintPath>Refs\Unity.InputSystem.dll</HintPath>
             <Private>false</Private>

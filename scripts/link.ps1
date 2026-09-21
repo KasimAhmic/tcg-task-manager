@@ -7,11 +7,15 @@ $ErrorActionPreference = "Stop"
 
 $ProjectRoot = Join-Path $PSScriptRoot ".."
 $RefsDir = Join-Path $ProjectRoot "TaskManager\Refs"
+$BepInExDir = Join-Path $GameDir "BepInEx\core"
 $ManagedDir = Join-Path $GameDir "Card Shop Simulator_Data\Managed"
 
-$References = @(
+$GameReferences = @(
 "Assembly-CSharp.dll",
 "Unity.InputSystem.dll"
+)
+$ModReferences = @(
+"BepInEx.dll"
 )
 
 function Test-IsElevated {
@@ -86,7 +90,7 @@ if (-not (Test-Path $RefsDir -PathType Container)) {
 New-Item -ItemType Directory -Path $RefsDir | Out-Null
 }
 
-foreach ($Reference in $References) {
+foreach ($Reference in $GameReferences) {
 $Source = Join-Path $ManagedDir $Reference
 $Destination = Join-Path $RefsDir $Reference
 
@@ -95,6 +99,19 @@ throw "Reference not found: $Source"
 }
 
 New-ReferenceFile `
+        -Source $Source `
+        -Destination $Destination
+}
+
+foreach ($Reference in $ModReferences) {
+    $Source = Join-Path $BepInExDir $Reference
+    $Destination = Join-Path $RefsDir $Reference
+
+    if (-not (Test-Path $Source -PathType Leaf)) {
+        throw "Reference not found: $Source"
+    }
+
+    New-ReferenceFile `
         -Source $Source `
         -Destination $Destination
 }
