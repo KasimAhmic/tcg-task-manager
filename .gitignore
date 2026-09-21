@@ -1,0 +1,8 @@
+TaskManager.user.props
+bin/
+obj/
+.idea/
+*.DotSettings.user
+TaskManager/Refs/*
+!TaskManager/Refs/README
+releases/
