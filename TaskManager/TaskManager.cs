@@ -9,24 +9,19 @@ namespace TaskManager;
 
 public class TaskManager : MonoBehaviour
 {
-    private bool _cursorOverridden;
     private bool _isPrimarySelected = true;
-    private bool _prevCursorVisible;
-    private CursorLockMode _prevLockMode;
     private Rect _window = new(5, 70, 300, 300);
     public static bool IsMenuOpen { get; private set; }
 
     public void Update()
     {
-        if (Keyboard.current != null && Keyboard.current.tKey.wasPressedThisFrame)
-        {
-            if (SceneManager.GetActiveScene().name == "Title") return;
+        if (Keyboard.current == null || !Keyboard.current.tKey.wasPressedThisFrame)
+            return;
 
-            SetUI(!IsMenuOpen);
+        if (SceneManager.GetActiveScene().name == "Title")
+            return;
 
-            if (IsMenuOpen && !_cursorOverridden) SetCursorMode(true);
-            if (!IsMenuOpen && _cursorOverridden) SetCursorMode(false);
-        }
+        SetUI(!IsMenuOpen);
     }
 
     public void OnDestroy()
@@ -146,31 +141,30 @@ public class TaskManager : MonoBehaviour
             EWorkerTask.Rest => currentTask == EWorkerTask.Rest
                 ? Style.RestButtonToggled
                 : Style.RestButton,
-            EWorkerTask.Fired => throw new ArgumentException("Cannot assign a fired task to a worker.", nameof(task)),
             _ => throw new ArgumentOutOfRangeException(nameof(task), task, null)
         };
     }
 
-    private void SetUI(bool open, bool runSideEffects = true)
+    private void SetUI(bool open)
     {
-        SetCursorMode(open);
+        var player = CSingleton<InteractionPlayerController>.Instance;
+
         IsMenuOpen = open;
 
-        switch (open)
+        if (open)
         {
-            case true when runSideEffects:
-                SoundManager.GenericMenuOpen();
-                InteractionPlayerController.Instance.StopCameraLerp();
-                InteractionPlayerController.Instance.ShowCursor();
-                CSingleton<InteractionPlayerController>.Instance.m_WalkerCtrl.SetStopMovement(true);
-                GameUIScreen.HideEnterGoNextDayIndicatorVisible();
-                break;
-            case false when runSideEffects:
-                SoundManager.GenericMenuClose();
-                InteractionPlayerController.Instance.HideCursor();
-                CSingleton<InteractionPlayerController>.Instance.m_WalkerCtrl.SetStopMovement(false);
-                GameUIScreen.ResetEnterGoNextDayIndicatorVisible();
-                break;
+            player.EnterUIMode();
+            player.StopCameraLerp();
+            player.m_WalkerCtrl.SetStopMovement(true);
+            GameUIScreen.HideEnterGoNextDayIndicatorVisible();
+            SoundManager.GenericMenuOpen();
+        }
+        else
+        {
+            player.ExitUIMode();
+            player.m_WalkerCtrl.SetStopMovement(false);
+            GameUIScreen.ResetEnterGoNextDayIndicatorVisible();
+            SoundManager.GenericMenuClose();
         }
     }
 
@@ -209,31 +203,5 @@ public class TaskManager : MonoBehaviour
     private static List<Worker> GetActiveWorkers()
     {
         return WorkerManager.GetWorkerList().Where(worker => worker.IsActive()).ToList();
-    }
-
-    private void SetCursorMode(bool uiOpen)
-    {
-        if (uiOpen)
-        {
-            // Save current state once
-            if (!_cursorOverridden)
-            {
-                _prevCursorVisible = Cursor.visible;
-                _prevLockMode = Cursor.lockState;
-            }
-
-            Cursor.visible = true;
-            Cursor.lockState = CursorLockMode.None; // release capture
-            _cursorOverridden = true;
-        }
-        else
-        {
-            // Restore previous state
-            if (!_cursorOverridden) return;
-
-            Cursor.visible = _prevCursorVisible;
-            Cursor.lockState = _prevLockMode;
-            _cursorOverridden = false;
-        }
     }
 }
