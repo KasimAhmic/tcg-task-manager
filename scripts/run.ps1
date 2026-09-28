@@ -4,7 +4,7 @@ $appid = 3070070                  # Steam AppID for TCG Card Shop Simulator
 $stopTimeout = 10                 # seconds to wait for graceful stop
 
 # Paths (update these!)
-$dllSrc = "D:\Documents\GitHub\TaskManager\TaskManager\bin\Debug\netstandard2.1\TaskManager.dll"
+$dllSrc = "D:\Documents\GitHub\tcg-task-manager\TaskManager\bin\Debug\netstandard2.1\TaskManager.dll"
 $dllDst = "D:\SteamLibrary\steamapps\common\TCG Card Shop Simulator\BepInEx\plugins\TaskManager\TaskManager.dll"
 $gameDir = "D:\SteamLibrary\steamapps\common\TCG Card Shop Simulator"
 

@@ -96,11 +96,13 @@ public class TaskManager : MonoBehaviour
 
         foreach (var worker in GetActiveWorkers())
         {
+            var data = worker.GetWorkerData();
+
             GUILayout.BeginHorizontal();
-            GUILayout.Box(worker.GetWorkerData().icon.texture, UI.GetLayout(Layout.TinyBox));
-            GUILayout.Label(worker.GetWorkerData().GetName(), UI.GetStyle(Style.Label), UI.GetLayout(Layout.WidthMedium));
-            GUILayout.Label(worker.GetWorkerData().GetRestockSpeedText(), UI.GetStyle(Style.Label), UI.GetLayout(Layout.WidthSmall));
-            GUILayout.Label(worker.GetWorkerData().GetCheckoutSpeedText(), UI.GetStyle(Style.Label), UI.GetLayout(Layout.WidthSmall));
+            UI.SpriteBox(data.icon, UI.GetLayout(Layout.TinyBox));
+            GUILayout.Label(data.GetName(), UI.GetStyle(Style.Label), UI.GetLayout(Layout.WidthMedium));
+            GUILayout.Label(data.GetRestockSpeedText(), UI.GetStyle(Style.Label), UI.GetLayout(Layout.WidthSmall));
+            GUILayout.Label(data.GetCheckoutSpeedText(), UI.GetStyle(Style.Label), UI.GetLayout(Layout.WidthSmall));
 
             HandleTaskButton(worker, EWorkerTask.RestockShelf, GetButtonStyle(worker, EWorkerTask.RestockShelf), Layout.WidthTiny);
             HandleTaskButton(worker, EWorkerTask.ManCounter, GetButtonStyle(worker, EWorkerTask.ManCounter), Layout.WidthTiny);

@@ -3,6 +3,12 @@
 TCG Task Manager is a simple mod for managing worker tasks from a single UI. No more chasing down workers and
 individually setting their tasks!
 
+<center>
+
+![TCG Task Manager UI](screenshot.png)
+
+</center>
+
 ## Features
 
 - Centralized task management UI

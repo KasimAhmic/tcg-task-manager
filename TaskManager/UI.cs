@@ -224,6 +224,44 @@ internal static class UI
             GUI.Label(shadowRect, text, style);
         }
     }
+    
+    internal static void SpriteBox(Sprite sprite, params GUILayoutOption[] options)
+    {
+        var rect = GUILayoutUtility.GetRect(
+            GUIContent.none,
+            GUI.skin.box,
+            options);
+
+        GUI.Box(rect, GUIContent.none);
+
+        rect.x += 4;
+        rect.y += 4;
+        rect.width -= 8;
+        rect.height -= 8;
+
+        var texture = sprite.texture;
+        var textureRect = sprite.textureRect;
+
+        var uv = new Rect(
+            textureRect.x / texture.width,
+            textureRect.y / texture.height,
+            textureRect.width / texture.width,
+            textureRect.height / texture.height);
+
+        var spriteRect = sprite.rect;
+        var offset = sprite.textureRectOffset;
+
+        var scaleX = rect.width / spriteRect.width;
+        var scaleY = rect.height / spriteRect.height;
+
+        var drawRect = new Rect(
+            rect.x + offset.x * scaleX,
+            rect.y + offset.y * scaleY,
+            textureRect.width * scaleX,
+            textureRect.height * scaleY);
+
+        GUI.DrawTextureWithTexCoords(drawRect, texture, uv, true);
+    }
 
     internal static void Unload()
     {

@@ -31,7 +31,7 @@ internal static class TextureUtil
 
     internal static Texture2D CreateTextureFromAtlas(Texture2D atlas, Rect rect)
     {
-        var tex = new Texture2D((int)rect.width, (int)rect.height, TextureFormat.RGBA32, false);
+        var tex = new Texture2D((int)rect.width, (int)rect.height, atlas.format, false);
         tex.SetPixels(atlas.GetPixels((int)rect.x, (int)rect.y, (int)rect.width, (int)rect.height));
         tex.Apply();
         tex.wrapMode = TextureWrapMode.Clamp;

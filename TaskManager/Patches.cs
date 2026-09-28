@@ -15,7 +15,8 @@ public static class Patches
     [HarmonyPatch(typeof(Input), nameof(Input.GetAxis))]
     internal static class BlockMouseAxisGetAxis
     {
-        [HarmonyPrefix, UsedImplicitly]
+        [HarmonyPrefix]
+        [UsedImplicitly]
         private static bool Prefix(string axisName, ref float __result)
         {
             if (!TaskManager.IsMenuOpen || (axisName != "Mouse X" && axisName != "Mouse Y")) return true;
@@ -27,7 +28,8 @@ public static class Patches
     [HarmonyPatch(typeof(Input), nameof(Input.GetAxisRaw))]
     internal static class BlockMouseAxisGetAxisRaw
     {
-        [HarmonyPrefix, UsedImplicitly]
+        [HarmonyPrefix]
+        [UsedImplicitly]
         private static bool Prefix(string axisName, ref float __result)
         {
             if (!TaskManager.IsMenuOpen || (axisName != "Mouse X" && axisName != "Mouse Y")) return true;
@@ -39,7 +41,8 @@ public static class Patches
     [HarmonyPatch(typeof(InputManager), nameof(InputManager.GetKeyDownAction))]
     internal static class BlockInteractKeyDown
     {
-        [HarmonyPrefix, UsedImplicitly]
+        [HarmonyPrefix]
+        [UsedImplicitly]
         private static bool Prefix(EGameAction action, ref bool __result)
         {
             if (!TaskManager.IsMenuOpen ||
@@ -53,7 +56,8 @@ public static class Patches
     [HarmonyPatch(typeof(InputManager), nameof(InputManager.GetKeyUpAction))]
     internal static class BlockInteractKeyUp
     {
-        [HarmonyPrefix, UsedImplicitly]
+        [HarmonyPrefix]
+        [UsedImplicitly]
         private static bool Prefix(EGameAction action, ref bool __result)
         {
             if (!TaskManager.IsMenuOpen ||
@@ -67,7 +71,8 @@ public static class Patches
     [HarmonyPatch(typeof(InputManager), nameof(InputManager.GetKeyHoldAction))]
     internal static class BlockInteractKeyHold
     {
-        [HarmonyPrefix, UsedImplicitly]
+        [HarmonyPrefix]
+        [UsedImplicitly]
         private static bool Prefix(EGameAction action, ref bool __result)
         {
             if (!TaskManager.IsMenuOpen ||
@@ -87,7 +92,8 @@ public static class Patches
     [HarmonyPatch(typeof(PlayCardSetUI), "Update")]
     private static class PlayCardSetUIUpdatePatch
     {
-        [HarmonyPrefix, UsedImplicitly]
+        [HarmonyPrefix]
+        [UsedImplicitly]
         private static bool Prefix(PlayCardSet ___m_PlayCardSet)
         {
             return ___m_PlayCardSet != null;
@@ -97,7 +103,8 @@ public static class Patches
     [HarmonyPatch(typeof(PlayCardSetUI), "LateUpdate")]
     private static class PlayCardSetUILateUpdatePatch
     {
-        [HarmonyPrefix, UsedImplicitly]
+        [HarmonyPrefix]
+        [UsedImplicitly]
         private static bool Prefix(PlayCardSet ___m_PlayCardSet)
         {
             return ___m_PlayCardSet != null;
